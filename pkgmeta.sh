@@ -41,7 +41,7 @@ case "$1" in
       exit 1
     fi
 
-    diff <(sort metadata) <(sort build-metadata) | grep '^[<>]' | awk '{print $2}' | sort -u
+    diff <(sort metadata) <(sort build-metadata) | grep '^[<>]' | awk '{print $2}' | sort -u || true
     ;;
 
   *)
