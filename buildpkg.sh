@@ -10,9 +10,18 @@ fi
 
 PKGS=("$@")
 
-useradd -m -s /bin/bash aarchd-builder
-echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-echo "aarchd-builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+if ! id -u aarchd-builder &>/dev/null; then
+    useradd -m -s /bin/bash aarchd-builder
+fi
+
+if ! grep -Fxq "root ALL=(ALL) NOPASSWD: ALL" /etc/sudoers; then
+    echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+fi
+
+if ! grep -Fxq "aarchd-builder ALL=(ALL) NOPASSWD: ALL" /etc/sudoers; then
+    echo "aarchd-builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+fi
+
 pacman -Syu base-devel fakeroot git --needed --noconfirm
 
 chown -R aarchd-builder:aarchd-builder /mnt/PKGBUILDs
