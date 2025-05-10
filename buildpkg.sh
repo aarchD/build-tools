@@ -8,6 +8,10 @@ if [[ $# -eq 0 ]]; then
     exit 1
 fi
 
+info() {
+    echo -e "\e[35m$1\e[0m"
+}
+
 PKGS=("$@")
 
 if ! id -u aarchd-builder &>/dev/null; then
@@ -30,11 +34,11 @@ for pkg in "${PKGS[@]}"; do
     pkgdir="/mnt/PKGBUILDs/$pkg"
 
     if [[ ! -d "$pkgdir" ]]; then
-        echo "Package directory $pkgdir does not exist. Skipping..."
+        info "Package directory $pkgdir does not exist. Skipping..."
         exit 1
     fi
 
-    echo "Building package: $pkg"
+    info "Building package: $pkg"
 
     sudo -u aarchd-builder -H bash -c "cd '$pkgdir' && makepkg -scf --noconfirm"
 
