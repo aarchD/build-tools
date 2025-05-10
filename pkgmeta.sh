@@ -27,8 +27,6 @@ case "$1" in
       pkg="${dir%/}"
       combined_hashes=""
       while IFS= read -r -d '' file; do
-        # Skip .rebuild file if present
-        [[ "$(basename "$file")" == ".rebuild" ]] && continue
         hash=$(sha256sum "$file" | awk '{print $1}')
         combined_hashes+="$hash"
       done < <(find "$dir" -type f -print0 | sort -z)
