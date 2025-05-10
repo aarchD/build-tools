@@ -15,6 +15,8 @@ echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 echo "aarchd-builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 pacman -Syu base-devel fakeroot git --needed --noconfirm
 
+chown -R aarchd-builder:aarchd-builder /mnt/PKGBUILDs
+
 for pkg in "${PKGS[@]}"; do
     pkgdir="/mnt/PKGBUILDs/$pkg"
 
