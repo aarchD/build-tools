@@ -11,6 +11,7 @@ fi
 PKGS=("$@")
 
 useradd -m -s /bin/bash aarchd-builder
+echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 echo "aarchd-builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 pacman -Syu base-devel fakeroot git --needed --noconfirm
 
@@ -24,7 +25,7 @@ for pkg in "${PKGS[@]}"; do
 
     echo "Building package: $pkg"
 
-    su aarchd-builder -c "cd '$pkgdir' && makepkg -scf --noconfirm"
+    sudo -u aarchd-builder -H bash -c "cd '$pkgdir' && makepkg -scf --noconfirm"
 
     find "$pkgdir" -maxdepth 1 \( -name "*.pkg.tar.zst" -o -name "*.pkg.tar.zst.sig" \) -exec mv -v {} /mnt/pkgs/ \;
 
