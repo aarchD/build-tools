@@ -12,6 +12,7 @@ PKGS=("$@")
 
 useradd -m -s /bin/bash aarchd-builder
 echo "aarchd-builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+pacman -Syu base-devel fakeroot git --needed --noconfirm
 
 for pkg in "${PKGS[@]}"; do
     pkgdir="/mnt/PKGBUILDs/$pkg"
