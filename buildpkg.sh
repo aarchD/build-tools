@@ -26,7 +26,8 @@ for pkg in "${PKGS[@]}"; do
 
     su aarchd-builder -c "cd '$pkgdir' && makepkg -scf --noconfirm"
 
-    find "$pkgdir" -maxdepth 1 -name "*.pkg.tar.zst" -exec mv -v {} /mnt/pkgs/ \;
+    find "$pkgdir" -maxdepth 1 \( -name "*.pkg.tar.zst" -o -name "*.pkg.tar.zst.sig" \) -exec mv -v {} /mnt/pkgs/ \;
+
 done
 
 echo "All done.."
