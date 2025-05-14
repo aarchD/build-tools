@@ -40,7 +40,7 @@ for pkg in "${PKGS[@]}"; do
 
     info "Building package: $pkg"
 
-    sudo -u aarchd-builder -H bash -c "cd '$pkgdir' && makepkg -scf --noconfirm"
+    sudo -u aarchd-builder -H bash -c "cd '$pkgdir' && makepkg -scif --noconfirm"
 
     find "$pkgdir" -maxdepth 1 \( -name "*.pkg.tar.zst" -o -name "*.pkg.tar.zst.sig" \) -exec mv -v {} /mnt/pkgs/ \;
 
