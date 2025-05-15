@@ -100,7 +100,14 @@ info "Build order: ${BUILD_ORDER[*]}"
 for pkg in "${BUILD_ORDER[@]}"; do
     pkgdir="$PKGDIR_BASE/$pkg"
     info "Building package: $pkg"
-    sudo -u "$BUILD_USER" -H bash -c "cd '$pkgdir' && makepkg -scif --noconfirm"
+
+    # add install exception for droidian-quirks, adaptation-hybris
+    if [[ "$pkg" == "droidian-quirks" || "$pkg" == "adaptation-hybris" ]]; then
+    sudo -u "$BUILD_USER" -H bash -c "cd '$pkgdir' && makepkg -scf --noconfirm"
+    else
+        sudo -u "$BUILD_USER" -H bash -c "cd '$pkgdir' && makepkg -scif --noconfirm"
+    fi
+
     find "$pkgdir" -maxdepth 1 \( -name "*.pkg.tar.zst" -o -name "*.pkg.tar.zst.sig" \) -exec mv -v {} /mnt/pkgs/ \;
 done
 
