@@ -101,9 +101,8 @@ for pkg in "${BUILD_ORDER[@]}"; do
     pkgdir="$PKGDIR_BASE/$pkg"
     info "Building package: $pkg"
 
-    # add install exception for droidian-quirks, adaptation-hybris
-    if [[ "$pkg" == "droidian-quirks" || "$pkg" == "adaptation-hybris" || "$pkg" == "aarchd-meta" ]]; then
-    sudo -u "$BUILD_USER" -H bash -c "cd '$pkgdir' && makepkg -scf --noconfirm"
+    if [[ -f "$pkgdir/.noinstall" ]]; then
+        sudo -u "$BUILD_USER" -H bash -c "cd '$pkgdir' && makepkg -scf --noconfirm"
     else
         sudo -u "$BUILD_USER" -H bash -c "cd '$pkgdir' && makepkg -scif --noconfirm"
     fi
