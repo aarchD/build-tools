@@ -25,6 +25,8 @@ for user in root "$BUILD_USER"; do
     fi
 done
 
+sed -i 's/^#MAKEFLAGS=.*/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
+
 pacman -Syu base-devel fakeroot git --needed --noconfirm
 chown -R "$BUILD_USER:$BUILD_USER" "$PKGDIR_BASE"
 
